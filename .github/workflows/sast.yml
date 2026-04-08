@@ -1,0 +1,24 @@
+name: SAST Check
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  bandit-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Python Setup
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Bandit installieren
+        run: pip install bandit
+
+      - name: SAST Scan
+        run: bandit -r . -ll
